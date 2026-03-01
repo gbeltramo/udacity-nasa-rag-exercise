@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools >= 82.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nasa_rag"
+version = "0.2.0"
+authors = [{ name = "Gabriele Beltramo", email = "hello@gbeltramo.com" }]
+description = "NASA project"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+
+dependencies = [
+    "pandas>=2.3.3",
+    "openai>=2.21.0",
+    "chromadb>=1.5.1",
+    "streamlit>=1.54.0",
+    "ragas>=0.4.3",
+    "sacrebleu>=2.6.0",   # required for RAGAS
+    "rapidfuzz>=3.14.3",  # required for RAGAS
+    "rouge_score>=0.1.2", # required for RAGAS
+    "build>=1.4.0",
+    "ipython>=9.10.0",
+    "ruff>=0.15.2",
+    "pytest>=9.0.2",
+]

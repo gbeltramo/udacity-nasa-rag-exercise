@@ -1,0 +1,10 @@
+*~
+*.log
+
+/dist/
+/build/
+nasa_rag.egg-info/
+__pycache__/
+/chroma_db_openai/
+
+!./.streamlit/config.toml
