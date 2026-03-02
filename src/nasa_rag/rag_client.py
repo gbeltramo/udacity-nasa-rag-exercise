@@ -148,36 +148,32 @@ def format_context(documents: List[str], metadatas: List[Dict], ids: List[str]) 
     context_parts_list = ["DOCUMENTS"]
     seen_ids = set()
 
-    for i in range(len(documents)):
-        doc_id = ids[i]
-
+    # Note:  Loop through paired documents and their metadata using enumeration
+    for idx, (doc_id, text, metadata) in enumerate(zip(ids, documents, metadatas)):
         # Note: avoid adding duplicate documents
         if doc_id in seen_ids:
             continue
 
         seen_ids.add(doc_id)
-        # Note:  Loop through paired documents and their metadata using enumeration
-        for idx, (text, metadata) in enumerate(zip(documents, metadatas)):
-            # Note:  Extract mission information from metadata with fallback value
-            # Note:  Clean up mission name formatting (replace underscores, capitalize)
-            # Note:  Extract source information from metadata with fallback value
-            # Note:  Extract category information from metadata with fallback value
-            # Note:  Clean up category name formatting (replace underscores, capitalize)
-            mission = metadata.get("mission", "unknown").replace("_", " ").lower()
-            source = metadata.get("source", "unknown")
-            document_category = (
-                metadata.get("document_category", "unknown").replace("_", " ").lower()
-            )
 
-            # Note: deduplicating added texts by checking if they are already present
-            # We do this by checking if the text_id was already added to the context parts
-            text_id = f"[DOC {mission} {source} {document_category} {idx}] "
-            # Note:  Create formatted source header with index number and extracted information
-            # Note:  Add source header to context parts list
-            context_parts_list.append(text_id)
-            # Note:  Check document length and truncate if necessary
-            # Note:  Add truncated or full document content to context parts list
-            context_parts_list.append(text)
+        # Note:  Extract mission information from metadata with fallback value
+        # Note:  Clean up mission name formatting (replace underscores, capitalize)
+        # Note:  Extract source information from metadata with fallback value
+        # Note:  Extract category information from metadata with fallback value
+        # Note:  Clean up category name formatting (replace underscores, capitalize)
+        mission = metadata.get("mission", "unknown").replace("_", " ").lower()
+        source = metadata.get("source", "unknown")
+        document_category = metadata.get("document_category", "unknown").replace("_", " ").lower()
+
+        # Note: deduplicating added texts by checking if they are already present
+        # We do this by checking if the text_id was already added to the context parts
+        text_id = f"[DOC {mission} {source} {document_category} {idx}] "
+        # Note:  Create formatted source header with index number and extracted information
+        # Note:  Add source header to context parts list
+        context_parts_list.append(text_id)
+        # Note:  Check document length and truncate if necessary
+        # Note:  Add truncated or full document content to context parts list
+        context_parts_list.append(text)
 
         # Note:  Join all context parts with newlines and return formatted string
         return "\n".join(context_parts_list)
