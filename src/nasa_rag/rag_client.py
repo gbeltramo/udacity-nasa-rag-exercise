@@ -150,11 +150,15 @@ def format_context(documents: List[str], metadatas: List[Dict], ids: List[str]) 
 
     # Note:  Loop through paired documents and their metadata using enumeration
     for idx, (doc_id, text, metadata) in enumerate(zip(ids, documents, metadatas)):
-        # Note: avoid adding duplicate documents
+        # Note: avoid adding duplicate documents by doc_id
         if doc_id in seen_ids:
             continue
 
         seen_ids.add(doc_id)
+
+        # Note: avoid adding duplicate documents by content of document
+        if text in context_parts_list:
+            continue
 
         # Note:  Extract mission information from metadata with fallback value
         # Note:  Clean up mission name formatting (replace underscores, capitalize)
@@ -175,8 +179,8 @@ def format_context(documents: List[str], metadatas: List[Dict], ids: List[str]) 
         # Note:  Add truncated or full document content to context parts list
         context_parts_list.append(text)
 
-        # Note:  Join all context parts with newlines and return formatted string
-        return "\n".join(context_parts_list)
+    # Note:  Join all context parts with newlines and return formatted string
+    return "\n".join(context_parts_list)
 
 
 if __name__ == "__main__":
